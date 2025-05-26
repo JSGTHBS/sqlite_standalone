@@ -1,8 +1,9 @@
 from typing import Any, List
 from fastapi import FastAPI
 import sqlite3
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, BackgroundTasks
 from pydantic import BaseModel
+import os
 
 app = FastAPI()
 db = None
@@ -94,3 +95,14 @@ def get_db_status() -> StatusReport:
         return StatusReport(connected=True, tables=tables, size=db_size)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/terminate")
+def terminate_server(background_tasks: BackgroundTasks):
+    """
+    Terminates the server after returning a shutdown message.
+
+    Returns:
+      A JSON message indicating that the server is shutting down.
+    """
+    background_tasks.add_task(os._exit, 0)
+    return {"message": "Server is shutting down..."}
