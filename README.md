@@ -7,7 +7,7 @@ Build with Python and fastAPI.
 
 `rundev.bat` to start dev server.
 
-`runbuild.bat` to build.
+`runbuild.bat` to build. Find the built exe in the dist folder.
 
 `runstart.bat` to try deployment environment.
 
